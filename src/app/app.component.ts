@@ -1,24 +1,32 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { invoke } from "@tauri-apps/api/tauri";
+import { MainMenuComponent } from './components/main-menu/main-menu.component';
+import { PayerDisplayComponent } from './components/main-menu/payer-display/payer-display.component';
+import { TranslatePipe } from './services/TranslationPipe';
+import { TranslationService } from './services/TranslationService';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet],
+  imports: [
+    CommonModule,
+    RouterOutlet, 
+    MainMenuComponent
+  ],
+  providers: [TranslatePipe],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  greetingMessage = "";
 
-  greet(event: SubmitEvent, name: string): void {
-    event.preventDefault();
+  public isDone: boolean = false;
 
-    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    invoke<string>("greet", { name }).then((text) => {
-      this.greetingMessage = text;
-    });
+  constructor(private translationSerivice: TranslationService) {
+    this.translationSerivice.dictionaryIsLoaded.subscribe(isLoaded => {
+      this.isDone = isLoaded;
+    })
   }
+    
 }

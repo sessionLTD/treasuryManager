@@ -1,0 +1,9 @@
+{
+    "descriptions": {
+        "telephone": "Telephone",
+        "email": "Email"
+    },
+    "actions": {
+        "create_new_payer": "Create a new Payer"
+    }
+}

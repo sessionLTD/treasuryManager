@@ -1,0 +1,4 @@
+<div *ngIf="payers != undefined && payers.length > 0">
+    <payer-display *ngFor="let payer of this.payers" [payer]="payer"></payer-display>
+</div>
+<button (click)="create_payer()">{{'actions.create_new_payer' | translate}}</button>
