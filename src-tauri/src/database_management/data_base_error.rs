@@ -10,7 +10,8 @@ pub enum DataBaseError {
     /// The data base is unable to create new files to store its data. The reason is inside the enum.
     FileCreation(String),
     /// The data base could not get the data that was looked for.
-    NotFound
+    NotFound,
+    AlreadyExists
 }
 
 impl Error for DataBaseError {}
@@ -21,6 +22,7 @@ impl Display for DataBaseError {
             DataBaseError::Writing(reason) => format!("Unable to write to files: {}", reason),
             DataBaseError::FileCreation(reason) => format!("Unable to create new files: {}", reason),
             DataBaseError::NotFound => String::from("Could not find the searched data."),
+            DataBaseError::AlreadyExists => String::from("Inserted value already exists."),
         };
         write!(f, "{}", value)
     }
@@ -33,6 +35,7 @@ impl From<&DataBaseError> for DataBaseError {
             DataBaseError::Writing(reason) => DataBaseError::Writing(reason.to_owned()),
             DataBaseError::FileCreation(reason) => DataBaseError::FileCreation(reason.to_owned()),
             DataBaseError::NotFound => DataBaseError::NotFound,
+            DataBaseError::AlreadyExists => DataBaseError::AlreadyExists,
         }
     }
 }

@@ -4,7 +4,8 @@ export class Payer {
         public firstname: String,
         public lastname: String,
         public telephone: String,
-        public email: String
+        public email: String,
+        public needs_to_pay: boolean,
     ) {}
 }
 

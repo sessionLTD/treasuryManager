@@ -44,7 +44,7 @@ impl TranslationSerivce {
     pub fn set_language(language: Language) {
         let mut file = File::open(PROGRAM_PROPERTIES).expect("Cannot open program properties");
         let language_property = format!("{}:{}", LANGUAGE_IDENTIFIER, language.identifier());
-        file.write(language_property.as_bytes());
+        let _ = file.write(language_property.as_bytes());
     }
 }
 

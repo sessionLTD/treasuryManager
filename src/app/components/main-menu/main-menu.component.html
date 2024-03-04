@@ -1,4 +1,25 @@
+<button (click)="wantsToCreateNewPayer = !wantsToCreateNewPayer">{{'actions.create_new_payer' | translate}}</button>
+<div *ngIf="wantsToCreateNewPayer">
+    <div [formGroup]="payerForm" id="payer_creation_form">
+        <mat-form-field fill>
+            <mat-label>{{'descriptions.firstname' | translate}}</mat-label>
+            <input matInput formControlName="firstname" required autocomplete="off">
+        </mat-form-field>
+        <mat-form-field fill>
+            <mat-label>{{'descriptions.lastname' | translate}}</mat-label>
+            <input matInput formControlName="lastname" required autocomplete="off">
+        </mat-form-field>
+        <mat-form-field fill>
+            <mat-label>{{'descriptions.telephone' | translate}}</mat-label>
+            <input matInput formControlName="telephone" autocomplete="off">
+        </mat-form-field>
+        <mat-form-field fill>
+            <mat-label>{{'descriptions.email' | translate}}</mat-label>
+            <input matInput formControlName="email" autocomplete="off">
+        </mat-form-field>
+    </div>
+    <button (click)="create_payer()">Create</button>
+</div>
 <div *ngIf="payers != undefined && payers.length > 0">
     <payer-display *ngFor="let payer of this.payers" [payer]="payer"></payer-display>
 </div>
-<button (click)="create_payer()">{{'actions.create_new_payer' | translate}}</button>

@@ -1,6 +1,11 @@
-<div>
-    <h2>{{payer.firstname}} {{payer.lastname}}</h2>
-    <p>{{'descriptions.email' | translate}}</p>
-    <p>{{payer.email}}</p>
-    <p>{{payer.telephone}}</p>
-</div>
+<mat-card class="card">
+    <mat-card-title>
+        <h2>{{payer.firstname}} {{payer.lastname}}</h2>
+    </mat-card-title>
+    <mat-card-content>
+        <label>{{'descriptions.email' | translate}}</label>
+        <div class="text">{{payer.email}}</div>
+        <label>{{'descriptions.telephone' | translate}}</label>
+        <div class="text">{{payer.telephone}}</div>
+    </mat-card-content>
+</mat-card>

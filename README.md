@@ -1,6 +1,11 @@
-# Tauri + Angular
+# Treasury Manager
+*An easy to use program to track expenses and incomes for associations and large groups.*
 
-This template should help get you started developing with Tauri and Angular.
+## Language Support
+Currently, there are three languages supported out of the box:
+* English
+* German
+* Norwegian
 
 ## Recommended IDE Setup
 

@@ -3,8 +3,21 @@ use std::fmt::Display;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
+use super::id_trait::ID;
+
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Clone)]
-pub struct PayerID(pub String);
+pub struct PayerID(String);
+
+impl ID for PayerID {
+    fn new() -> Self {
+        let id = Uuid::new_v4().to_string().replace('-', "");
+        Self(id)
+    }
+    
+    fn value(&self) -> &String {
+        &self.0
+    }
+}
 
 impl Display for PayerID {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -12,35 +25,23 @@ impl Display for PayerID {
     }
 }
 
-#[derive(Debug, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Serialize, Deserialize, PartialEq, Clone)]
 pub struct Payer {
     firstname: String,
     lastname: String,
     telephone: String,
     email: String,
+    needs_to_pay: bool,
     id: PayerID
 }
 
 impl Payer {
     pub fn new(firstname: String, lastname: String, telephone: String, email: String) -> Self {
-        let id = PayerID(Uuid::new_v4().to_string().replace('-', ""));
-        Self { firstname, lastname, telephone, email, id }
+        Self { firstname, lastname, telephone, email, needs_to_pay: false, id: PayerID::new() }
     }
-
+    #[cfg(test)]
     pub fn get_firstname(&self) -> &String {
         &self.firstname
-    }
-
-    pub fn get_lastname(&self) -> &String {
-        &self.lastname
-    }
-
-    pub fn get_email(&self) -> &String {
-        &self.email
-    }
-
-    pub fn get_telephone(&self) -> &String {
-        &self.telephone
     }
 
     pub fn get_id(&self) -> &PayerID {

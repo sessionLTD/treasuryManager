@@ -1,0 +1,19 @@
+.text {
+    overflow-wrap: break-word;
+    width: 100%;
+}
+
+h2 {
+    margin-left: 2px;
+    color: var(--primary-100)
+}
+
+mat-card {
+    box-shadow: 7px 7px 3px 1px color-mix(in srgb, var(--primary-900), transparent 66%) !important;
+    width: 25%;
+    height: fit-content;
+}
+
+mat-card-title {
+    background-color: var(--primary-500);
+}

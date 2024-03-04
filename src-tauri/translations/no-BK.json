@@ -1,7 +1,9 @@
 {
     "descriptions": {
         "telephone": "Telefon",
-        "email": "Email"
+        "email": "Email",
+        "firstname": "Fornavn",
+        "lastname": "Etternavn"
     },
     "actions": {
         "create_new_payer": "Opprett en ny innskyter"

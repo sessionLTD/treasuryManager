@@ -1,7 +1,9 @@
 {
     "descriptions": {
         "telephone": "Telefon",
-        "email": "Email"
+        "email": "Email",
+        "firstname": "Vorname",
+        "lastname": "Nachname"
     },
     "actions": {
         "create_new_payer": "Neuen Einzahler erstellen"

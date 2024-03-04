@@ -90,8 +90,39 @@ button {
 
 @media (prefers-color-scheme: dark) {
   :root {
-    color: #f6f6f6;
-    background-color: #2f2f2f;
+    color: var(--primary-600);
+    background-color: var(--primary-100);
+    --primary-100: #F2FDFF;
+    --primary-200: #BFF8FD;
+    --primary-300: #86EEF2;
+    --primary-400: #4BD2CE;
+    --primary-500: #18948A;
+    --primary-600: #087869;
+    --primary-700: #025D4B;
+    --primary-800: #004231;
+    --primary-900: #00261A;
+
+    /* Accent: Pink Bite */
+    --accent-100: #FFF2F7;
+    --accent-200: #FFC5DD;
+    --accent-300: #FD98C7;
+    --accent-400: #F769B4;
+    --accent-500: #ED3BA3;
+    --accent-600: #BB1981;
+    --accent-700: #8A0A63;
+    --accent-800: #580544;
+    --accent-900: #260220;
+
+    /* Neutral */
+    --neutral-100: #FAFCFC;
+    --neutral-200: #E5EAEB;
+    --neutral-300: #D1D8D9;
+    --neutral-400: #BDC7C7;
+    --neutral-500: #AAB5B4;
+    --neutral-600: #879190;
+    --neutral-700: #656E6C;
+    --neutral-800: #434A48;
+    --neutral-900: #222625;
   }
 
   a:hover {
