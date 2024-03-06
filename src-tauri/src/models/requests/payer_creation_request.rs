@@ -10,3 +10,16 @@ pub struct PayerCreationRequest {
     pub email: String,
     pub group_id: GroupID
 }
+
+impl PayerCreationRequest {
+    #[cfg(test)]
+    pub fn new(firstname: String, lastname: String, telephone: String, email: String, group_id: GroupID) -> Self {
+        Self {
+            firstname,
+            lastname,
+            telephone,
+            email,
+            group_id
+        }
+    }
+}

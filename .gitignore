@@ -2,8 +2,7 @@
 .vscode
 .angular
 #Test data
-src-tauri/test-resources/data/payer_data/*
-src-tauri/test-resources/data/transaction_data/*
+src-tauri/test-resources/*
 #Debug and release data
 src-tauri/data
 

@@ -1,6 +1,6 @@
 use std::{fs, path::Path};
 
-use crate::{constants::{GROUP_DATA_DIRECTORY, GROUP_DATA_FILE, PAYER_DATA_DIRECTORY, TRANSACTION_DIRECTORY}, database_management::group_data_manager::GroupDataManager, models::{group::Group, id_trait::ID, payer::{Payer, PayerID}, requests::group_creation_request::GroupCreationRequest}, start_up::setup::SetupManager, test::utils::cleanup_group};
+use crate::{constants::{GROUP_DATA_DIRECTORY, GROUP_DATA_FILE, PAYER_DATA_DIRECTORY, TRANSACTION_DIRECTORY}, database_management::group_data_manager::GroupDataManager, models::{group::Group, id_trait::ID, payer::{Payer, PayerID}, requests::group_creation_request::GroupCreationRequest}, start_up::setup::SetupManager, test::utils::{cleanup_group, create_empty_group, create_filled_group}};
 
 #[test]
 pub fn create_group_test() {
@@ -68,29 +68,4 @@ pub fn remove_payer_from_group_test() {
     let members = binding.get_members();
     assert!(!members.contains(payer.get_id()), "Payer is still inside the group!");
     assert!(members.len() == 1, "Too many payers removed!");
-}
-
-
-fn create_empty_group(name: Option<String>) -> Group {
-    let group_name = name.unwrap_or("Test Group".to_string());
-    let group = GroupCreationRequest{name: group_name, members: None};
-    let g = GroupDataManager::save_new_group(group);
-    if let Ok(g) = g {
-        g
-    } else {
-        let error = g.err().unwrap();
-        panic!("Cannot create Group: {}", error);
-    }
-}
-
-fn create_filled_group(name: Option<String>) -> Group {
-    let group_name = name.unwrap_or("Test Group".to_string());
-    let group = GroupCreationRequest{name: group_name, members: Some(vec![PayerID::new()])};
-    let g = GroupDataManager::save_new_group(group);
-    if let Ok(g) = g {
-        g
-    } else {
-        let error = g.err().unwrap();
-        panic!("Cannot create Group: {}", error);
-    }
 }

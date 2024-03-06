@@ -3,7 +3,7 @@ use std::fmt::Display;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-use super::id_trait::ID;
+use super::{cashvalue::CashValue, id_trait::ID};
 
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Clone)]
 pub struct PayerID(String);
@@ -31,13 +31,13 @@ pub struct Payer {
     lastname: String,
     telephone: String,
     email: String,
-    needs_to_pay: bool,
+    balance: CashValue,
     id: PayerID
 }
 
 impl Payer {
     pub fn new(firstname: String, lastname: String, telephone: String, email: String) -> Self {
-        Self { firstname, lastname, telephone, email, needs_to_pay: false, id: PayerID::new() }
+        Self { firstname, lastname, telephone, email, balance: CashValue::new(), id: PayerID::new() }
     }
     #[cfg(test)]
     pub fn get_firstname(&self) -> &String {
@@ -46,6 +46,10 @@ impl Payer {
 
     pub fn get_id(&self) -> &PayerID {
         &self.id
+    }
+
+    pub fn get_balance_mut(&mut self) -> &mut CashValue {
+        &mut self.balance
     }
 }
 

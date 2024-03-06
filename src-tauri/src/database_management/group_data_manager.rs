@@ -1,6 +1,6 @@
 use std::{fs::{self, File, OpenOptions}, io::{Error, Write}, path::Path, str};
 
-use crate::{constants::{GROUP_DATA_DIRECTORY, GROUP_DATA_FILE, PAYER_DATA_DIRECTORY, TRANSACTION_DIRECTORY}, models::{group::{Group, GroupID}, id_trait::ID, payer::{Payer, PayerID}, requests::group_creation_request::GroupCreationRequest}};
+use crate::{constants::{DATA_FILES_SUFFIX, GROUP_DATA_DIRECTORY, GROUP_DATA_FILE, PAYER_DATA_DIRECTORY, TRANSACTION_BUNDLE_MAP_FILE, TRANSACTION_BUNDLE_MAP_FILE_SUFFIX, TRANSACTION_DIRECTORY}, models::{group::{Group, GroupID}, id_trait::ID, payer::{Payer, PayerID}, requests::group_creation_request::GroupCreationRequest}};
 
 use super::data_base_error::DataBaseError;
 
@@ -22,6 +22,8 @@ impl GroupDataManager {
                 file.write(data.as_bytes())
                     .map_err(|error| DataBaseError::Writing(error.to_string()))?;
                 fs::create_dir(transactions_directory_of_group(group.get_id()))
+                    .map_err(|error| DataBaseError::FileCreation(error.to_string()))?;
+                fs::create_dir(transaction_timestamp_map_file(group.get_id()))
                     .map_err(|error| DataBaseError::FileCreation(error.to_string()))?;
                 fs::create_dir(payer_directory_of_group(group.get_id()))
                     .map_err(|error| DataBaseError::FileCreation(error.to_string()))?;
@@ -112,6 +114,15 @@ impl GroupDataManager {
             Err(DataBaseError::NotFound)
         }
     }
+
+    pub fn get_group_directory(group_id: &GroupID) -> Result<String, DataBaseError> {
+        let directory = group_directory(group_id);
+        if Path::new(&directory).exists() {
+            Ok(directory)
+        } else {
+            Err(DataBaseError::NotFound)
+        }
+    }
 }
 
 fn group_directory(group_id: &GroupID) -> String {
@@ -119,11 +130,15 @@ fn group_directory(group_id: &GroupID) -> String {
 }
 
 fn group_data_file(group_id: &GroupID) -> String {
-    format!("{}\\{}", group_directory(group_id), GROUP_DATA_FILE)
+    format!("{}\\{}{}", group_directory(group_id), GROUP_DATA_FILE, DATA_FILES_SUFFIX)
 }
 
 fn transactions_directory_of_group(group_id: &GroupID) -> String {
     format!("{}\\{}", group_directory(group_id), TRANSACTION_DIRECTORY)
+}
+
+fn transaction_timestamp_map_file(group_id: &GroupID) -> String {
+    format!("{}\\{}{}", transactions_directory_of_group(group_id), TRANSACTION_BUNDLE_MAP_FILE, TRANSACTION_BUNDLE_MAP_FILE_SUFFIX) 
 }
 
 fn payer_directory_of_group(group_id: &GroupID) -> String {

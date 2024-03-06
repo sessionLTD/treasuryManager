@@ -1,6 +1,6 @@
 use std::{fs::{self, File}, io::Write, path::Path, str};
 
-use crate::{constants::{GROUP_DATA_DIRECTORY, PAYER_DATA_DIRECTORY}, models::{group::GroupID, id_trait::ID, payer::{Payer, PayerID}}};
+use crate::{constants::{DATA_FILES_SUFFIX, GROUP_DATA_DIRECTORY, PAYER_DATA_DIRECTORY}, models::{group::GroupID, id_trait::ID, payer::{Payer, PayerID}}};
 
 use super::data_base_error::DataBaseError;
 
@@ -8,7 +8,7 @@ pub struct PayerDataManager;
 
 impl PayerDataManager {
     pub fn save_new_payer(payer: &Payer, group_id: &GroupID) -> Result<(), DataBaseError> {
-        let path = format!("{}\\{}{}", group_folder(group_id), PAYER_DATA_DIRECTORY, payer.get_id());
+        let path = format!("{}\\{}{}{}", group_folder(group_id), PAYER_DATA_DIRECTORY, payer.get_id(), DATA_FILES_SUFFIX);
         let mut file = File::create(&path).map_err(|error| DataBaseError::FileCreation(format!("File: {} -> {}", path, error)))?;
         let payer_stringified = ron::to_string(payer).unwrap();
         file.write(payer_stringified.as_bytes()).map_err(|e| DataBaseError::Writing(e.to_string()))?;

@@ -11,7 +11,12 @@ pub enum DataBaseError {
     FileCreation(String),
     /// The data base could not get the data that was looked for.
     NotFound,
-    AlreadyExists
+    /// The data cannot be created because it already exists.
+    AlreadyExists,
+    /// The data base could not get the path to the directory wher the necessary data is located.
+    PathFinding(String),
+    /// There was an error in finding a cache because it cannot be created during another process.
+    CacheProblem(String),
 }
 
 impl Error for DataBaseError {}
@@ -23,6 +28,8 @@ impl Display for DataBaseError {
             DataBaseError::FileCreation(reason) => format!("Unable to create new files: {}", reason),
             DataBaseError::NotFound => String::from("Could not find the searched data."),
             DataBaseError::AlreadyExists => String::from("Inserted value already exists."),
+            DataBaseError::PathFinding(reason) => format!("Unable to find the path to the directory where that data should be located: {}", reason),
+            DataBaseError::CacheProblem(reason) => format!("Unable to create a cache which is necessary: {}", reason),
         };
         write!(f, "{}", value)
     }
@@ -36,6 +43,8 @@ impl From<&DataBaseError> for DataBaseError {
             DataBaseError::FileCreation(reason) => DataBaseError::FileCreation(reason.to_owned()),
             DataBaseError::NotFound => DataBaseError::NotFound,
             DataBaseError::AlreadyExists => DataBaseError::AlreadyExists,
+            DataBaseError::PathFinding(reason) => DataBaseError::PathFinding(reason.to_owned()),
+            DataBaseError::CacheProblem(reason) => DataBaseError::CacheProblem(reason.to_owned()),
         }
     }
 }

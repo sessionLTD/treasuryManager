@@ -1,7 +1,9 @@
+use std::fmt::Display;
+
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-use super::{cashvalue::CashValue, id_trait::ID, payer::PayerID};
+use super::{cashvalue::CashValue, group::GroupID, id_trait::ID, payer::PayerID, requests::transaction_creation_request::TransactionCreationRequest};
 
 #[derive(Debug, Serialize, Deserialize, PartialEq, Clone)]
 pub struct TransactionID(String);
@@ -17,38 +19,37 @@ impl ID for TransactionID {
     }
 }
 
-#[derive(Debug, Serialize, Deserialize, PartialEq)]
+impl Display for TransactionID {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0)
+    }
+}
+
+#[derive(Debug, Serialize, Deserialize, PartialEq, Clone)]
 pub struct Transaction {
     id: TransactionID,
     amount: CashValue,
-    payer_id: Option<PayerID>,
+    payer_id: PayerID,
+    group_id: GroupID,
     reason: String,
     timestamp: u64,
 }
 
 impl Transaction {
-    pub fn get_id(&self) -> &TransactionID {
-        &self.id
+
+    pub fn new_from_request(request: &TransactionCreationRequest) -> Self {
+        Self {
+            id: TransactionID::new(),
+            amount: request.amount,
+            payer_id: request.payer_id.clone(),
+            group_id: request.group_id.clone(),
+            reason: request.reason.clone(),
+            timestamp: request.timestamp
+        }
     }
 
     pub fn get_amount(&self) -> &CashValue {
         &self.amount
-    }
-
-    pub fn get_payer_id(&self) -> Option<&PayerID> {
-        self.payer_id.as_ref()
-    }
-
-    pub fn get_reason(&self) -> &String {
-        &self.reason
-    }
-
-    pub fn set_reason(&mut self, reason: String) {
-        self.reason = reason;
-    }
-
-    pub fn get_timestamp(&self) -> u64 {
-        self.timestamp
     }
 }
 
